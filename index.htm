@@ -1,0 +1,138 @@
+
+ <!DOCTYPE html>
+		<html>
+		<head>
+		  <meta charset="utf-8">
+		  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+		  <title>Intro to MapView - Create a 2D map - 4.8</title>
+		  <style>
+			html,
+			body,
+			#viewDiv {
+			  padding: 0;
+			  margin: 0;
+			  height: 100%;
+			  width: 100%;
+			}
+     
+  #paneDiv{
+      position:absolute;
+      bottom:0%;   <!-- questo style imposta la distanza dal fondo della pagina che deve essere 0 -->
+      width:100%; 		<!-- impostiamo la larghezza della sezione a tutta la pagina. -->
+      padding:20px 0;  <!-- l'elemento non verrà attaccato al fondo della pagina in quanto ha un padding che lo distanzia da cio che ha intorno -->
+      z-index:1;		<!-- impostiamo l'elemento sopra gli altri -->
+      text-align:center;  <!-- centriamo il testo contenuto nell'elemento. -->
+    }
+    <!-- definiamo qui, invece, lo style dei bottoni -->
+    button {						
+      background:white;   
+      pagging:7px;				<!-- impostiamo una spaziatura interna per dare dimensioni -->
+	  <!-- se non inserito il pulsante prenderebbe (almeno che non specificato staticamente) le dimensioni del testo.
+					e risulterebbe incollato ad esso.	  -->
+      border:1px solid white;  <!-- forniamo un bordo che da un po di style -->
+      font-size:0.8em;          <!-- diamo una dimensione al font -->
+      margin:3px;					<!-- spaziamo il pulsante di 3px dagli elementi intorno. -->
+	  <!--  Notiamo la differenza tra padding che fornisce una spaziatura interna ed margin che invece fornisce una spaziatura esterna --> 
+      color:#005e95;
+    }
+	<!-- :hover è una pseudo classe che si attiva quando il mouse è sopra il bottone.
+	         utilizziamo questa classe quando vogliamo variare la grafica ogni volta che il mouse	
+			viene posizionato sopra il bottone. -->
+    button:hover{
+      backgorund:#005e95;
+      color:white; 
+	  <!-- cursor:pointer cambia l'immagine del cursore del mouse ogni volta che 
+			esso si trovi sopra il pulsante. -->
+      cursor:pointer;
+    }
+		  </style>
+
+		  <link rel="stylesheet" href="https://js.arcgis.com/4.8/esri/css/main.css">
+		  <script src="https://js.arcgis.com/4.8/"></script>
+
+		  <script>
+       
+ var view = null; 
+  var pointNightOfCandles;
+  var buttons[] = null;
+  var button = null;
+  
+			  require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/Graphic",
+      "esri/geometry/Point",
+      "dojo/domReady!"
+    ], function(Map, MapView, Graphic, Point) {
+
+			  	   
+      map = new Map({
+        basemap: "topo"
+      });
+
+			     view = new MapView({
+        container: "viewDiv",
+        map: map,
+        zoom: 11,
+        center: [12.40, 41.82] // longitude, latitude
+      });
+      
+      	<!-- qui sto creando l'immagine a forma di punto che verrà posizionata sul luogo che "vorrei visitare" -->
+	 pointNightOfCandles = {
+        type: "point",
+        longitude: 12.179,
+        latitude: 41.874
+      };
+      
+      <!-- qui definisco invece lo stile grafico del punto che vorrei inserire. -->
+      var markerSymbol = {
+        type: "simple-marker",
+        color:[226,119,40],   <!-- colore dell'immagine -->
+        outline:{
+          color:[255,255,255],  <!-- colore e dimensione del contorno -->
+          width:1
+        }
+      };
+      
+	  <!-- con l'istanziazione di questa classe invece associo lo stile appena creato al punto.
+	          posso associare lo stesso stile a più punti istanziando più Graphics e cambiando solo al 
+			  proprietà geometry. -->
+      var pointGraphic1 = new Graphic({
+        geometry:pointNightOfCandles,
+        symbol:markerSymbol
+      });
+      
+      <!-- con questo metodo invece inserisco i punti appena istanziati nella mappa.
+	         ci pensera il metodo a posizionarlo nel punto giusto. -->
+      view.graphics.addMany([pointGraphic1,pointGraphic2,pointGraphic3,pointGraphic4,pointGraphic5]);
+      
+    buttons = document.querySelectorAll("button");
+    for(var i = 0, button = null; button = buttons[i]; i++){
+      button.addEventListener("click",onClick);
+    }
+    
+    });
+       
+        function onClick(event){
+	<!-- code detto controllo che il pulsante sia quello (poiché abbiamo un solo pulsante questo controllo è totalmente inutile -->
+        if(button == buttons[0]){
+		<!-- quello che dobbiamo fare è semplicemente modificare il centro della mappa tramite la proprietà "center".
+		              impostando la latitude e la longitudine del punto che abbiamo disegnato in precedenza. -->
+          view.center=[pointNightOfCandles.latitude,pointNightOfCandles.longitude];
+				<!-- reimposto anche lo zoom per aumentare la vicinanza con il punto. -->
+            view.zoom = 14;
+        }      
+
+    }
+    
+		  </script>
+		</head>
+
+		<body>
+		 <div id="viewDiv"></div>
+  <div id="paneDiv">
+      <h3>Luoghi dove vorrei essere ora!</h3>
+      <button>Night of candles</button>
+      </div>
+		</body>
+  </html>
