@@ -77,14 +77,14 @@
         center: [12.40, 41.82] // longitude, latitude
       });
       
-      	<!-- qui sto creando l'immagine a forma di punto che verrà posizionata sul luogo che "vorrei visitare" -->
+      	/* qui sto creando l'immagine a forma di punto che verrà posizionata sul luogo che 'vorrei visitare' */
 	 pointNightOfCandles = {
         type: "point",
         longitude: 12.179,
         latitude: 41.874
       };
       
-      <!-- qui definisco invece lo stile grafico del punto che vorrei inserire. -->
+      /* qui definisco invece lo stile grafico del punto che vorrei inserire. */
       var markerSymbol = {
         type: "simple-marker",
         color:[226,119,40],   <!-- colore dell'immagine -->
@@ -94,16 +94,16 @@
         }
       };
       
-	  <!-- con l'istanziazione di questa classe invece associo lo stile appena creato al punto.
+	  /* con l'istanziazione di questa classe invece associo lo stile appena creato al punto.
 	          posso associare lo stesso stile a più punti istanziando più Graphics e cambiando solo al 
-			  proprietà geometry. -->
+			  proprietà geometry. */
       var pointGraphic1 = new Graphic({
         geometry:pointNightOfCandles,
         symbol:markerSymbol
       });
       
-      <!-- con questo metodo invece inserisco i punti appena istanziati nella mappa.
-	         ci pensera il metodo a posizionarlo nel punto giusto. -->
+      /* con questo metodo invece inserisco i punti appena istanziati nella mappa.
+	         ci pensera il metodo a posizionarlo nel punto giusto. */
       view.graphics.addMany([pointGraphic1,pointGraphic2,pointGraphic3,pointGraphic4,pointGraphic5]);
       
     buttons = document.querySelectorAll("button");
@@ -114,12 +114,12 @@
     });
        
         function onClick(event){
-	<!-- code detto controllo che il pulsante sia quello (poiché abbiamo un solo pulsante questo controllo è totalmente inutile -->
+	/* code detto controllo che il pulsante sia quello (poiché abbiamo un solo pulsante questo controllo è totalmente inutile */
         if(button == buttons[0]){
-		<!-- quello che dobbiamo fare è semplicemente modificare il centro della mappa tramite la proprietà "center".
-		              impostando la latitude e la longitudine del punto che abbiamo disegnato in precedenza. -->
+		/* quello che dobbiamo fare è semplicemente modificare il centro della mappa tramite la proprietà "center".
+		              impostando la latitude e la longitudine del punto che abbiamo disegnato in precedenza. */
           view.center=[pointNightOfCandles.latitude,pointNightOfCandles.longitude];
-				<!-- reimposto anche lo zoom per aumentare la vicinanza con il punto. -->
+	/* reimposto anche lo zoom per aumentare la vicinanza con il punto. */
             view.zoom = 14;
         }      
 
